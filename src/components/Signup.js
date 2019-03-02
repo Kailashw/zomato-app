@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { withRouter } from 'react-router-dom'
+import faker from 'faker'
 
 // Temporary Code to style my CSS forLgin Screen
 const styles = theme => ({
@@ -48,8 +49,10 @@ const styles = theme => ({
 });
 
 
+const BaseAPIUrl = "https://5c72fab9ba65bb0014ebf059.mockapi.io/userdocs/Users"
+
 //  Login Component
-class Login extends React.Component {
+class Signup extends React.Component {
 
     constructor(props) {
         super()
@@ -63,12 +66,10 @@ class Login extends React.Component {
 
     componentDidMount = () => {
         this.getUsers();
-        console.log(this.state)
     };
     
     getUsers = async () => {
-        const url = "https://5c72fab9ba65bb0014ebf059.mockapi.io/userdocs/Users"
-        let userDb =  await fetch(url)
+        let userDb =  await fetch(BaseAPIUrl)
         let users = await userDb.json();
         this.setState({
             users : users
@@ -78,7 +79,7 @@ class Login extends React.Component {
     reduceUser = () =>{
         let bool = false
         this.state.users.forEach(user => {
-            if(user.name === this.state.email && user.password === this.state.password){
+            if(user.name === this.state.email){
                 bool = true
             }
         }
@@ -86,12 +87,37 @@ class Login extends React.Component {
         return bool
     }
 
+    createUser = async () => {
+        
+        //construct payload
+        let data = {
+            // "id" : faker.random.uuid(),
+            name : this.state.email,
+            password : this.state.password,
+            avatar:faker.internet.avatar()
+        }
+
+        // call URL
+        let wait = await fetch(BaseAPIUrl,{
+                method: 'POST',
+                body: JSON.stringify(data)
+            })
+        return wait.json()
+    }
 
     onSubmit = async (e) => {
-        let isValid = await this.reduceUser()
-        if (!isValid) {
-            this.setState({error : "Not a valid User."})
+        let userExists = await this.reduceUser()
+        if (userExists) {
+            this.setState({error : "Username is already taken."})
         } else {
+            fetch(BaseAPIUrl,{
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({name : this.state.email})
+            })
             localStorage.setItem('user', this.state.email)
             this.props.history.push('/')
         }
@@ -108,7 +134,7 @@ class Login extends React.Component {
     render() {
         const { classes } = this.props;
         const { email, password } = this.state
-        
+
         return (
             <main className={classes.main}>
                 <CssBaseline />
@@ -121,7 +147,7 @@ class Login extends React.Component {
                         <h1> <label color="red"> {this.state.error} </label> </h1>
                     }
                     <Typography component="h1" variant="h5">
-                    Please Enter Username and Password
+                        Please Enter Username and Password
           </Typography>
                     <form className={classes.form} onSubmit={this.onSubmit}>
                         <FormControl margin="normal" required fullWidth>
@@ -136,31 +162,21 @@ class Login extends React.Component {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            color="primary"
+                            color="secondary"
                             className={classes.submit}
                         >
-                            Sign in
+                            Register
             </Button>
             
                     </form>
                 </Paper>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                            className={classes.submit}
-                            onClick={() => this.props.history.push('/signup')}
-                        >
-                            Sign Up /Register
-                        </Button>
             </main>
         );
     }
 }
 
-Login.propTypes = {
+Signup.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(Login));
+export default withStyles(styles)(withRouter(Signup));

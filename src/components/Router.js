@@ -4,6 +4,7 @@ import NotFound from './NotFound';
 import Home from './Home';
 import Login from './Login';
 import Logout from './Logout';
+import Signup from './Signup';
 import Restaurants from './Resturants';
 import ResturantDetails from './ResturantDetails';
 
@@ -13,6 +14,7 @@ const Router = () => (
       <Route path='/' component={Home} exact />
       <Route path='/login' component={Login} exact />
       <Route path='/logout' component={Logout} exact />
+      <Route path='/signup' component={Signup} exact />
       <Route path='/resturants' component={Restaurants} />
       <Route path='/resturants/:id' component={ResturantDetails} />
       <Route component={NotFound} />
