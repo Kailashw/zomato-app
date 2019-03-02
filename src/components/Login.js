@@ -78,7 +78,7 @@ class Login extends React.Component {
     reduceUser = () =>{
         let bool = false
         this.state.users.forEach(user => {
-            if(user.name === this.state.email && user.password === this.state.password){
+            if(user.name.toLowerCase() === this.state.email.toLowerCase() && user.password === this.state.password){
                 bool = true
             }
         }

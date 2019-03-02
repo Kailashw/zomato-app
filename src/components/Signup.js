@@ -79,30 +79,12 @@ class Signup extends React.Component {
     reduceUser = () =>{
         let bool = false
         this.state.users.forEach(user => {
-            if(user.name === this.state.email){
+            if(user.name.toLowerCase() === this.state.email.toLowerCase()){
                 bool = true
             }
         }
         )
         return bool
-    }
-
-    createUser = async () => {
-        
-        //construct payload
-        let data = {
-            // "id" : faker.random.uuid(),
-            name : this.state.email,
-            password : this.state.password,
-            avatar:faker.internet.avatar()
-        }
-
-        // call URL
-        let wait = await fetch(BaseAPIUrl,{
-                method: 'POST',
-                body: JSON.stringify(data)
-            })
-        return wait.json()
     }
 
     onSubmit = async (e) => {
@@ -116,7 +98,7 @@ class Signup extends React.Component {
                     'Content-Type': 'application/json'
                 },
                 method: 'POST',
-                body: JSON.stringify({name : this.state.email})
+                body: JSON.stringify({name : this.state.email,password : this.state.password})
             })
             localStorage.setItem('user', this.state.email)
             this.props.history.push('/')
