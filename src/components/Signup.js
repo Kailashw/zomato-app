@@ -13,7 +13,6 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { withRouter } from 'react-router-dom'
-import faker from 'faker'
 import Header from './common/Header';
 import Footer from './common/Footer';
 
@@ -60,28 +59,28 @@ class Signup extends React.Component {
         super()
         this.state = {
             email: '',
-            password : '',
+            password: '',
             error: '',
-            users : []
+            users: []
         }
     }
 
     componentDidMount = () => {
         this.getUsers();
     };
-    
+
     getUsers = async () => {
-        let userDb =  await fetch(BaseAPIUrl)
+        let userDb = await fetch(BaseAPIUrl)
         let users = await userDb.json();
         this.setState({
-            users : users
+            users: users
         });
     }
 
-    reduceUser = () =>{
+    reduceUser = () => {
         let bool = false
         this.state.users.forEach(user => {
-            if(user.name.toLowerCase() === this.state.email.toLowerCase()){
+            if (user.name.toLowerCase() === this.state.email.toLowerCase()) {
                 bool = true
             }
         }
@@ -92,15 +91,15 @@ class Signup extends React.Component {
     onSubmit = async (e) => {
         let userExists = await this.reduceUser()
         if (userExists) {
-            this.setState({error : "Username is already taken."})
+            this.setState({ error: "Username is already taken." })
         } else {
-            fetch(BaseAPIUrl,{
+            fetch(BaseAPIUrl, {
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 method: 'POST',
-                body: JSON.stringify({name : this.state.email,password : this.state.password})
+                body: JSON.stringify({ name: this.state.email, password: this.state.password })
             })
             localStorage.setItem('user', this.state.email)
             this.props.history.push('/')
@@ -121,43 +120,43 @@ class Signup extends React.Component {
 
         return (
             <>
-            <Header/>
-            <main className={classes.main}>
-                <CssBaseline />
-                <Paper className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlined />
-                    </Avatar>
-                    {
-                        this.state.error &&
-                        <h1> <label color="red"> {this.state.error} </label> </h1>
-                    }
-                    <Typography component="h1" variant="h5">
-                        Please Enter Username and Password
+                <Header />
+                <main className={classes.main}>
+                    <CssBaseline />
+                    <Paper className={classes.paper}>
+                        <Avatar className={classes.avatar}>
+                            <LockOutlined />
+                        </Avatar>
+                        {
+                            this.state.error &&
+                            <h1> <label color="red"> {this.state.error} </label> </h1>
+                        }
+                        <Typography component="h1" variant="h5">
+                            Please Enter Username and Password
           </Typography>
-                    <form className={classes.form} onSubmit={this.onSubmit}>
-                        <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="email" >Username</InputLabel>
-                            <Input id="email" name="email" value={email} onChange={this.handleEmailChange} autoComplete="email" autoFocus />
-                        </FormControl>
-                        <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input name="password" type="password" id="password"  value={password} onChange={this.handlePasswordChange}autoComplete="current-password" />
-                        </FormControl>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="secondary"
-                            className={classes.submit}
-                        >
-                            Register
+                        <form className={classes.form} onSubmit={this.onSubmit}>
+                            <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="email" >Username</InputLabel>
+                                <Input id="email" name="email" value={email} onChange={this.handleEmailChange} autoComplete="email" autoFocus />
+                            </FormControl>
+                            <FormControl margin="normal" required fullWidth>
+                                <InputLabel htmlFor="password">Password</InputLabel>
+                                <Input name="password" type="password" id="password" value={password} onChange={this.handlePasswordChange} autoComplete="current-password" />
+                            </FormControl>
+                            <Button
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                color="secondary"
+                                className={classes.submit}
+                            >
+                                Register
             </Button>
-            
-                    </form>
-                </Paper>
-            </main>
-            <Footer/>
+
+                        </form>
+                    </Paper>
+                </main>
+                <Footer />
             </>
         );
     }

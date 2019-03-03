@@ -4,7 +4,7 @@ import Header from './common/Header';
 import Panel from './common/Panel';
 import zomato_Home from './images/zomato_Home.png'
 import { Select, MenuItem } from '@material-ui/core';
-import { getCategoriesData, getResturants, getUsers, getUser, getReviews, postReview } from '../actions/zomatoapi';
+import { getResturants } from '../actions/zomatoapi';
 
 
 const imgStyle = {
@@ -48,15 +48,15 @@ class Home extends Component {
         this.setState({ city: event.target.value });
     };
 
-    getResturants = async (cityId)=>{
+    getResturants = async (cityId) => {
         let res = await getResturants(cityId)
         return res
     }
 
-    handleSearch = async(event) => {
+    handleSearch = async (event) => {
         // call resturants from the city and set it in localstorage.
         let res = await this.getResturants(event.target.value)
-        localStorage.setItem('resturants',JSON.stringify(res))
+        localStorage.setItem('resturants', JSON.stringify(res))
         this.props.history.push('/resturants')
         return null;
     }
@@ -87,7 +87,7 @@ class Home extends Component {
                     <MenuItem value={6}>Hyderabad</MenuItem>
                 </Select>
                 {this.state.city > 0 &&
-                    <button value={this.state.city} style = {buttonStyle} onClick={this.handleSearch}> Clik to Search..</button>
+                    <button value={this.state.city} style={buttonStyle} onClick={this.handleSearch}> Clik to Search..</button>
                 }
             </div>
         )

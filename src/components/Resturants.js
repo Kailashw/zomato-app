@@ -1,13 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import NotFound from './NotFound';
-import { element } from 'prop-types';
 import Header from './common/Header';
 import Footer from './common/Footer';
-import Panel from './common/Panel';
-import { Card, Grid, withStyles, Paper } from '@material-ui/core';
+import { Grid, withStyles } from '@material-ui/core';
 import ResturantCard from './ResturantCard';
-
 
 const styles = theme => ({
   root: {
@@ -33,7 +29,7 @@ const Restaurants = props => {
     <React.Fragment>
       <Header />
       <div>
-        {renderResturantDetails(restaurants,props.classes)}
+        {renderResturantDetails(restaurants, props.classes)}
       </div>
       <Footer />
     </React.Fragment>
@@ -41,19 +37,19 @@ const Restaurants = props => {
 };
 
 
-const renderResturantDetails = (restaurants,classes) => {
+const renderResturantDetails = (restaurants, classes) => {
   return (
-        <div className={classes.root}>
-        <Grid container spacing={24}>
+    <div className={classes.root}>
+      <Grid container spacing={24}>
         {
           restaurants.map(item => {
-            return  (<Grid item xs={3}>
-                      <ResturantCard resturant={item} />
-                    </Grid>)
+            return (<Grid item xs={3}>
+              <ResturantCard resturant={item} />
+            </Grid>)
           })
         }
-         </Grid>
-        </div>
+      </Grid>
+    </div>
   )
 }
 export default withStyles(styles)(Restaurants)

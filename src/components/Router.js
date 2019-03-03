@@ -16,7 +16,7 @@ const Router = () => (
       <Route path='/logout' component={Logout} exact />
       <Route path='/signup' component={Signup} exact />
       <Route path='/resturants' component={Restaurants} />
-      <Route path='/resturants/:id' component={ResturantDetails} />
+      <Route path='/resturantDetails/:id' component={ResturantDetails} />
       <Route component={NotFound} />
 
     </Switch>

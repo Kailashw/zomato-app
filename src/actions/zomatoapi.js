@@ -8,10 +8,8 @@ const baseAPIUrl = "https://5c72fab9ba65bb0014ebf059.mockapi.io/userdocs/"
 const usersApi = baseAPIUrl+"Users"
 const reviewsApi = baseAPIUrl + "reviews"
 
-const zomatoCitiesUrl = zomatoBaseAPIUrl + "cities"
-const zomatoResturantsUrl = zomatoBaseAPIUrl + "resturants"
-const zomatoCollectionsUrl = zomatoBaseAPIUrl + "collections"
-const zomatoCuisinesUrl = zomatoBaseAPIUrl + "cuisines"
+const zomatoReviewssUrl = zomatoBaseAPIUrl + "reviews"
+const zomatoResturantUrl = zomatoBaseAPIUrl + "restaurant"
 const zomatoCatigoriesUrl = zomatoBaseAPIUrl + "categories"
 
 // get resturant details.
@@ -36,6 +34,14 @@ export const getCategoriesData = async () => {
     return categories
 };
 
+// get resturant reviews.
+export const getResturantReviews = async (restaurantId) => {
+    headerInfo['res_id'] =restaurantId
+    const allReviews = await fetch(zomatoReviewssUrl,headerInfo);
+    const reviews = await allReviews.json();
+    return reviews.user_reviews 
+}
+
 
 //get users details.
 export const getUsers = async () => {
@@ -59,7 +65,7 @@ export const getUser = async (name) => {
 export const getReviews = async (restaurantId) => {
     const allReviews = await fetch(reviewsApi);
     const reviews = await allReviews.json();
-    return reviews.filter((review)=> review.resturantId === restaurantId)
+    return reviews //reviews.filter((review)=> review.resturantId === restaurantId)
 }
 
 // post reviews agianst a resturant 

@@ -5,11 +5,11 @@ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { withRouter } from 'react-router-dom'
 
 const styles = theme => ({
   card: {
@@ -40,7 +40,7 @@ const styles = theme => ({
 class ResturantCard extends React.Component {
   
   render() {
-    const { classes, resturant } = this.props;
+    const { classes, resturant, disable } = this.props;
     const featureImg = resturant.featured_image
 
     return (
@@ -48,7 +48,7 @@ class ResturantCard extends React.Component {
         <CardHeader
           action={
             <IconButton>
-              <MoreVertIcon onClick = {()=> alert('will be forwarded to resturant details page wait')}/>
+              <MoreVertIcon onClick = {()=> disable ? '':this.props.history.push('/resturantDetails/'+resturant.id)}/>
             </IconButton>
           }
           title= {<a href={resturant.url}> {resturant.name} </a>}
@@ -58,6 +58,7 @@ class ResturantCard extends React.Component {
           className={classes.media}
           image={featureImg}
           title="Resturant Image"
+          onClick = {()=> disable ? ' ':this.props.history.push('/resturantDetails/'+resturant.id)}
         />
         <CardContent>
           <Typography component="p">
@@ -75,4 +76,4 @@ ResturantCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(ResturantCard);
+export default withStyles(styles)(withRouter(ResturantCard));
