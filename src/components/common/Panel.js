@@ -17,7 +17,7 @@ export default withTheme()(styled(Panel)`
     border-radius: ${props => props.theme.borderRadius};
     display: flex;
     justify-content: center;
-    min-height: 200px;
+    min-height: 5--px;
     padding: 2rem;
 
     p {
