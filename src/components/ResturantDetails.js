@@ -64,6 +64,21 @@ class ResturantDetails extends React.Component {
 
   renderCustomReviews = () => {
     let reviews = JSON.parse(localStorage.userReviews) || []
+    let res = []
+    let user = localStorage.getItem('user')
+    if (user == "" || user == null) {
+      user = ""
+    }
+    reviews.forEach(element => {
+      let us = element.username
+      if (us == null || us == "") {
+        us = " "
+      }
+      if (us.toLowerCase() == user.toLowerCase()) {
+        res.push(element)
+      }
+    })
+    reviews = res
     return <>
       <Typography variant="h4"> Custom Reviews By all user against this resturant. </Typography>
       {
@@ -75,7 +90,7 @@ class ResturantDetails extends React.Component {
   }
 
   renderReviews = () => {
-    let reviews = JSON.parse(localStorage.restReviews) || []
+    let reviews = JSON.parse(localStorage.restReviews)
     return <>
       <Typography variant="h4"> Reviews By all user against this resturant. </Typography>
       {
@@ -87,7 +102,10 @@ class ResturantDetails extends React.Component {
   }
 
   submitReview = (e) => {
-    postReview(this.props.match.params.id,this.state.rating,this.state.review)
+    if (this.state.rating == 0 || this.state.review == " ") {
+      return
+    } 
+    postReview(this.props.match.params.id, this.state.rating, this.state.review)
     this.props.history.push('/')
   }
 
@@ -139,22 +157,25 @@ class ResturantDetails extends React.Component {
     let isValid = localStorage.getItem('user')
     if (!isValid) {
       alert('please login to enter your valuable reviews.')
+      this.setState({ review: '', rating: 0 })
+    } else {
+      this.setState({ review: e.target.value })
     }
-    this.setState({ review: e.target.value })
   }
 
   handleRatingChange = (e) => {
     let isValid = localStorage.getItem('user')
     if (!isValid) {
       alert('please login to enter your valuable reviews.')
+    } else {
+      this.setState({ rating: e.target.value })
     }
-    this.setState({ rating: e.target.value })
   }
 
   render() {
     if (this.props.location.state === undefined) {
       return (
-        <NotFound/>
+        <NotFound />
       )
     };
     //fetch selected id's resturant details
