@@ -1,49 +1,59 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import NotFound from './NotFound';
+import { element } from 'prop-types';
+import Header from './common/Header';
+import Footer from './common/Footer';
+import Panel from './common/Panel';
+import { Card, Grid, withStyles, Paper } from '@material-ui/core';
+import ResturantCard from './ResturantCard';
+
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    paddingTop: '1%'
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+});
 
 const Restaurants = props => {
-  const restaurants = props.location.state;
-
-  if (restaurants === undefined) {
+  const restaurants = JSON.parse(localStorage.getItem('resturants'));
+  if (!restaurants || restaurants === undefined) {
     return (
-      <NotFound/>
+      <NotFound />
     )
   };
 
   return (
     <React.Fragment>
-        <ul className="resturant-list">
-          {
-            restaurants.map(item => {
-              const { id, thumb, name, location: { address }, user_rating: { aggregate_rating: rate } } = item;
-
-              return (
-                <li key={id} className="restaurant-item">
-                  <div className="restaurant-item__image" style={{ backgroundImage: `url('${thumb}')` }}></div>
-                  <div className="restaurant-item__content">
-                    <div className="basic-info">
-                      <h2 className="restaurant-name">{name}</h2>
-                      <h4 className="restaurant-location">{address}</h4>
-                    </div>
-                    <div className="restaurant-details">
-                      <button className="btn-transparent">
-                        <Link className="link" to={{
-                          pathname: `/resturants/${id}`,
-                          state: { restaurant: item, restaurants }
-                        }}>Details
-                        </Link>
-                      </button>
-                      <p className="rating-value">{rate}</p>
-                    </div>
-                  </div>
-                </li>
-              )
-            })
-          };
-        </ul>
+      <Header />
+      <div>
+        {renderResturantDetails(restaurants,props.classes)}
+      </div>
+      <Footer />
     </React.Fragment>
   );
 };
 
-export default Restaurants;
+
+const renderResturantDetails = (restaurants,classes) => {
+  return (
+        <div className={classes.root}>
+        <Grid container spacing={24}>
+        {
+          restaurants.map(item => {
+            return  (<Grid item xs={3}>
+                      <ResturantCard resturant={item} />
+                    </Grid>)
+          })
+        }
+         </Grid>
+        </div>
+  )
+}
+export default withStyles(styles)(Restaurants)

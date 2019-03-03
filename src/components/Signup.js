@@ -14,6 +14,8 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { withRouter } from 'react-router-dom'
 import faker from 'faker'
+import Header from './common/Header';
+import Footer from './common/Footer';
 
 // Temporary Code to style my CSS forLgin Screen
 const styles = theme => ({
@@ -118,6 +120,8 @@ class Signup extends React.Component {
         const { email, password } = this.state
 
         return (
+            <>
+            <Header/>
             <main className={classes.main}>
                 <CssBaseline />
                 <Paper className={classes.paper}>
@@ -153,6 +157,8 @@ class Signup extends React.Component {
                     </form>
                 </Paper>
             </main>
+            <Footer/>
+            </>
         );
     }
 }

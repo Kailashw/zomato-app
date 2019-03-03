@@ -24,7 +24,7 @@ const Header = (props) => {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography variant="h6" color="inherit" className={classes.grow} onClick={() => props.history.push('/dashboard')}>
+                    <Typography variant="h6" color="inherit" className={classes.grow} onClick={() => props.history.push('/')}>
                         <Button color="inherit" onClick={() => props.history.push('/login')}>  Home </Button>
                     </Typography>
                     <Typography variant="h6" color="inherit" className={classes.grow}>

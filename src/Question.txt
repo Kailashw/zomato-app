@@ -5,12 +5,12 @@ This search option should have ability to search by cuisines, restaurant type an
 
 The search result should display atleast following details per restaurant:
 
-Restaurant name
-url to zomato page
-Cuisines type
-User_rating info
-Price info
-if possible add thumbnail as well
+Restaurant name - DOne
+url to zomato page - DOne
+Cuisines type - DOne
+User_rating info - DOne
+Price info - DONE
+if possible add thumbnail as well - DONE
 
 When the user clicks on a restaurant, new page should open with all possible restaurant information. The user
 should have ability to add review for the restaurant and this should be saved in a hosted database (These reviews

@@ -3,7 +3,8 @@ import Footer from './common/Footer';
 import Header from './common/Header';
 import Panel from './common/Panel';
 import zomato_Home from './images/zomato_Home.png'
-import { Select, InputLabel, MenuItem, Button } from '@material-ui/core';
+import { Select, MenuItem } from '@material-ui/core';
+import { getCategoriesData, getResturants, getUsers, getUser, getReviews, postReview } from '../actions/zomatoapi';
 
 
 const imgStyle = {
@@ -20,6 +21,21 @@ const divStyle = {
     justifyContent: 'space-around'
 }
 
+const buttonStyle = {
+    flexGrow: 0.2,
+    backgroundColor: 'red',
+    border: 'none',
+    color: 'white',
+    padding: '15px 32px',
+    textAlign: 'center',
+    textDecoration: 'none',
+    display: 'inline-block',
+    fontSize: '16px',
+    margin: '4px 2px',
+    cursor: 'pointer',
+    borderRadius: '2px'
+}
+
 class Home extends Component {
     constructor(props) {
         super()
@@ -30,8 +46,20 @@ class Home extends Component {
 
     handleChange = event => {
         this.setState({ city: event.target.value });
-        console.log(this.state)
     };
+
+    getResturants = async (cityId)=>{
+        let res = await getResturants(cityId)
+        return res
+    }
+
+    handleSearch = async(event) => {
+        // call resturants from the city and set it in localstorage.
+        let res = await this.getResturants(event.target.value)
+        localStorage.setItem('resturants',JSON.stringify(res))
+        this.props.history.push('/resturants')
+        return null;
+    }
 
     renderCities = () => {
         return (
@@ -59,15 +87,10 @@ class Home extends Component {
                     <MenuItem value={6}>Hyderabad</MenuItem>
                 </Select>
                 {this.state.city > 0 &&
-                    <Button variant="raised" color="secondary">Clik to Search..</Button>
+                    <button value={this.state.city} style = {buttonStyle} onClick={this.handleSearch}> Clik to Search..</button>
                 }
             </div>
         )
-    }
-
-    onSubmit = () => {
-
-        // call resturants from the city and set it in localstorage.
     }
 
     render() {
