@@ -9,7 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { withRouter } from 'react-router-dom'
+import { withRouter,Link } from 'react-router-dom'
+import { Button } from '@material-ui/core';
 
 const styles = theme => ({
   card: {
@@ -38,7 +39,7 @@ const styles = theme => ({
 });
 
 class ResturantCard extends React.Component {
-  
+
   render() {
     const { classes, resturant, disable } = this.props;
     const featureImg = resturant.featured_image
@@ -48,23 +49,28 @@ class ResturantCard extends React.Component {
         <CardHeader
           action={
             <IconButton>
-              <MoreVertIcon onClick = {()=> disable ? '':this.props.history.push('/resturantDetails/'+resturant.id)}/>
+              <MoreVertIcon onClick={() => disable ? '' : this.props.history.push('/resturantDetails/' + resturant.id)} />
             </IconButton>
           }
-          title= {<a href={resturant.url}> {resturant.name} </a>}
+          title={<a href={resturant.url}> {resturant.name} </a>}
           subheader={"Avg. cost for two :" + resturant.average_cost_for_two}
         />
         <CardMedia
           className={classes.media}
           image={featureImg}
           title="Resturant Image"
-          onClick = {()=> disable ? ' ':this.props.history.push('/resturantDetails/'+resturant.id)}
+          onClick={() => disable ? ' ' : this.props.history.push('/resturantDetails/' + resturant.id)}
         />
+        <Button color="secondary" variant="outlined">
+          <Link className="link" to={{ pathname: `/resturantDetails/${resturant.id}`, state: { restaurant: resturant } }}>
+            Click to view Details
+        </Link>
+        </Button>
         <CardContent>
           <Typography component="p">
-            <b> Cuisine Offered :</b>  {resturant.cuisines }  <br/>
-            <b>Avg. User Rating : </b> {resturant.user_rating.aggregate_rating}  out of {resturant.user_rating.votes} votes.<br/>
-            <b>Rating Text:</b> {resturant.user_rating.rating_text} <br/> 
+            <b> Cuisine Offered :</b>  {resturant.cuisines}  <br />
+            <b>Avg. User Rating : </b> {resturant.user_rating.aggregate_rating}  out of {resturant.user_rating.votes} votes.<br />
+            <b>Rating Text:</b> {resturant.user_rating.rating_text} <br />
           </Typography>
         </CardContent>
       </Card>

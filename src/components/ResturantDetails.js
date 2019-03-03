@@ -5,6 +5,7 @@ import DetailsCard from './DetailsCard';
 import { withStyles, Typography, TextField, Button, FormControl, Select, MenuItem } from '@material-ui/core';
 import MsgHeader from './common/MsgHeader';
 import { getReviews, getResturantReviews, postReview } from '../actions/zomatoapi';
+import NotFound from './NotFound';
 
 const styles = theme => ({
   root: {
@@ -62,7 +63,7 @@ class ResturantDetails extends React.Component {
   }
 
   renderCustomReviews = () => {
-    let reviews = JSON.parse(localStorage.userReviews)
+    let reviews = JSON.parse(localStorage.userReviews) || []
     return <>
       <Typography variant="h4"> Custom Reviews By all user against this resturant. </Typography>
       {
@@ -74,7 +75,7 @@ class ResturantDetails extends React.Component {
   }
 
   renderReviews = () => {
-    let reviews = JSON.parse(localStorage.restReviews)
+    let reviews = JSON.parse(localStorage.restReviews) || []
     return <>
       <Typography variant="h4"> Reviews By all user against this resturant. </Typography>
       {
@@ -151,9 +152,15 @@ class ResturantDetails extends React.Component {
   }
 
   render() {
+    if (this.props.location.state === undefined) {
+      return (
+        <NotFound/>
+      )
+    };
     //fetch selected id's resturant details
-    let resturant = JSON.parse(localStorage.getItem('resturants'))[0]
+    let resturant = this.props.location.state.restaurant
     const { classes } = this.props
+
     return (
       <div className={classes.root}>
         <Header />

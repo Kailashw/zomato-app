@@ -65,7 +65,6 @@ class Login extends React.Component {
 
     componentDidMount = () => {
         this.getUsers();
-        console.log(this.state)
     };
     
     getUsers = async () => {
